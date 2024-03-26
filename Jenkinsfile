@@ -1,19 +1,16 @@
 pipeline {
      agent any
-     tools {
-         nodejs "NodeJS_Install" // Specify the Node.js installation ID
-     }
      stages {
         stage("Build") {
             steps {
-                sh "npm install"
-                sh "npm run build"
+                sh "sudo npm install"
+                sh "sudo npm run build"
             }
         }
         stage("Deploy") {
             steps {
-                sh "rm -rf /var/www/jenkins-react-app"
-                sh "cp -r ${WORKSPACE}/build/ /var/www/jenkins-react-app/"
+                sh "sudo rm -rf /var/www/jenkins-react-app"
+                sh "sudo cp -r ${WORKSPACE}/build/ /var/www/jenkins-react-app/"
             }
         }
     }
