@@ -1,13 +1,10 @@
 pipeline {
-    agent any
-    environment {
-        NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-    }
-    stages {
+     agent any
+     stages {
         stage("Build") {
             steps {
-                sh "${NODEJS_HOME}/bin/npm install"
-                sh "${NODEJS_HOME}/bin/npm run build"
+                sh "npm install"
+                sh "npm run build"
             }
         }
         stage("Deploy") {
