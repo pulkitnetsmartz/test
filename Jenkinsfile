@@ -1,29 +1,31 @@
 pipeline {
-    agent any
-    
+    agent {
+        docker {
+            image 'node:18-alpine'
+            args '-p 3000:3000'
+        }
+    }
+     environment {
+            CI = 'true'
+        }
     stages {
-        stage("Build") {
+        stage('Build') {
             steps {
-                script {
-                    // Build Docker image
-                    sh "docker build -t myapp-image ."
-                    
-                    // Run Docker container from the built image
-                    sh "docker run -d -p 80:80 myapp-image"
-                }
+                sh 'npm install'
             }
         }
-        
-        stage("Deploy") {
-            steps {
-                script {
-                    // Remove existing contents of deployment directory
-                    sh "sudo rm -rf /var/www/jenkins-react-app"
-                    
-                    // Copy build artifacts to deployment directory
-                    sh "sudo cp -r ${WORKSPACE}/build/ /var/www/jenkins-react-app/"
+        stage('Test') {
+                    steps {
+                        sh './jenkins/scripts/test.sh'
+                    }
                 }
-            }
-        }
+                stage('Deliver') {
+                            steps {
+                                sh './jenkins/scripts/deliver.sh'
+                                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                                sh './jenkins/scripts/kill.sh'
+                            }
+                        }
+
     }
 }
