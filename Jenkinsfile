@@ -3,8 +3,9 @@ pipeline {
      stages {
         stage("Build") {
             steps {
-                sh "npm install"
-                sh "npm run build"
+                sh "docker build"
+                sh "docker build -t host"
+                sh "docker run -d -p 80:80 host"
             }
         }
         stage("Deploy") {
