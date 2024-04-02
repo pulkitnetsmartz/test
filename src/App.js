@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Docker se app chal gya
+          Docker se app chal gya, Jenkins se bhi chal gya.
         </p>
         <a
           className="App-link"
